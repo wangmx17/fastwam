@@ -70,5 +70,19 @@ step. Reserve space for the final model and optimizer checkpoint (the prior
 8-GPU run required approximately 100 GB). Use a new output directory; check
 GPU occupancy before running. Stop and investigate if OOM occurs.
 
-The cleaned entry must pass a fresh S5000 run before publication. The prior
-external adapter's run is reference evidence, not validation of this commit.
+## Validation (2026-11-18)
+
+The cleaned entry completed 50 optimizer steps on eight S5000 GPUs using the
+command above, with driver 3.3.10-server and TrainingSuite 2.1.7 image ID
+`67eafc3ad1ce409cb61996b9f86d7e8893c225d0e802abe8589ef4c945219b5c`.
+Exit code was 0; all 50 logged losses were finite (final loss 0.5047).
+The weight checkpoint and trainer state both report step 50, and all eight
+optimizer shard archives passed structural checks. Resume training was not
+part of this validation. GPU-process monitoring found no foreign processes.
+
+The interval from completion of step 11 to completion of step 50 was
+2.1081 seconds/step, or 60.72 samples/second at GBS 128. This includes the
+real data pipeline and logging, and excludes final checkpoint saving; it is
+a single validation run, not a controlled cross-device performance result.
+CPU reference checks also covered 1D action and 3D video RoPE forward and
+backward, and timestep embeddings over positions 0 through 999.
