@@ -175,6 +175,8 @@ FastWAM/
 
 ## Environment Setup
 
+For the opt-in S5000 training entry, see [MUSA training](README_MUSA.md).
+
 ```bash
 conda create -n fastwam python=3.10 -y
 conda activate fastwam
